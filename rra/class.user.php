@@ -16,8 +16,7 @@ class USER
 	
 	public function runQuery($sql)
 	{
-		$stmt = $this->conn->prepare($sql);
-		return $stmt;
+        return $this->conn->prepare($sql);
 	}
 	
 	public function lasdID()

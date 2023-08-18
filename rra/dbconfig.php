@@ -2,7 +2,7 @@
 class Database
 {
      
-    private $host = "localhost";
+    private $host = "127.0.0.1";
     private $db_name = "vis";
     private $username = "root";
     private $password = "";
@@ -25,4 +25,3 @@ class Database
         return $this->conn;
     }
 }
-?>

@@ -1,15 +1,13 @@
 <?php
-$con = mysql_connect("localhost","root","");
-if(!$con)
-{
-die("connection to database failed".mysql_error());
+
+
+$con = new mysqli("127.0.0.1","root","","vis");
+// Check connection
+if ($con->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
-/* selecting the database "lafraternite" */
-$dataselect = mysql_select_db("vis",$con);
-if(!$dataselect)
-{
-die("Database namelist not selected".mysql_error());
-}
+
+
 
 ?>
 <?php
@@ -42,11 +40,16 @@ if($err==0)
 {
 move_uploaded_file($tmp, "attachments/$name");
 }
-$qry=mysql_query("UPDATE customer_details SET id_num='$idm' WHERE id='$ID'", $con);
-if(!$qry)
-{
-die("Query Failed: ". mysql_error());
-}
+
+$qry = $con->query("UPDATE customer_details SET id_num='$idm' WHERE id='$ID'");
+    if(!$qry)
+    {
+        die("Query Failed: ". $con->error);
+    }
+    else{
+        echo "<script>alert('Your Record has been Successfully Upadated '); window.location='requests.php'</script>";
+
+    }
 }
 
 if($rratc)
@@ -59,11 +62,16 @@ if($err==0)
 {
 move_uploaded_file($tmp, "attachments/$name");
 }
-$qry=mysql_query("UPDATE customer_details SET revenue='$rratc' WHERE id='$ID'", $con);
+$qry=$con->query("UPDATE customer_details SET revenue='$rratc' WHERE id='$ID'");
 if(!$qry)
 {
-die("Query Failed: ". mysql_error());
+    die("Query Failed: ". $con->error);
 }
+else{
+    echo "<script>alert('Your Record has been Successfully Upadated '); window.location='requests.php'</script>";
+
+    }
+
 }
 
 if($insc)
@@ -76,19 +84,24 @@ if($err==0)
 {
 move_uploaded_file($tmp, "attachments/$name");
 }
-$qry=mysql_query("UPDATE customer_details SET insurance='$insc' WHERE id='$ID'", $con);
+$qry=$con->query("UPDATE customer_details SET insurance='$insc' WHERE id='$ID'");
 if(!$qry)
 {
-die("Query Failed: ". mysql_error());
+    die("Query Failed: ". $con->error);
 }
+else{
+    echo "<script>alert('Your Record has been Successfully Upadated '); window.location='requests.php'</script>";
+
+}
+
 }
 ?>
 
 <?php
-$qry=mysql_query("UPDATE customer_details SET plaque='$plate',customer_name='$names',tel='$phone',province='$province',district='$district',sector='$sector',vim='$vim',category='$vcategory',model='$vmodel',mnumber='$mnumber',fnumber='$fnumber',myear='$myear',byear='$byear' WHERE id='$ID'");
+$qry= $con->query("UPDATE customer_details SET plaque='$plate',customer_name='$names',tel='$phone',province='$province',district='$district',sector='$sector',vim='$vim',category='$vcategory',model='$vmodel',mnumber='$mnumber',fnumber='$fnumber',myear='$myear',byear='$byear' WHERE id='$ID'");
 if(!$qry)
 {
-die("Query Failed: ". mysql_error());
+die("Query Failed: ". $con->error);
 }
 else{
 echo "<script>alert('Your Record has been Successfully Upadated '); window.location='requests.php'</script>";

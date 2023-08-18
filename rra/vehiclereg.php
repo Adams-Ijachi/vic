@@ -447,7 +447,7 @@ move_uploaded_file($_FILES["insc"]["tmp_name"],"attachments/" . $_FILES["insc"][
 $dates = date('Y-m-d h:i:s');
 $plate=$_POST['plate'];
 $names=$_POST['names'];
-$id=$_FILES["id"]["name"];
+$id="jj";
 $phone = "+25".$_POST['phone'];
 $province=$_POST['province'];
 $district=$_POST['district'];
@@ -461,24 +461,38 @@ $myear=$_POST['myear'];
 $byear=$_POST['byear'];
 $rratc=$_FILES["rratc"]["name"];
 $insc=$_FILES["insc"]["name"];
-      
-    //$count = $conn->countOf("customer_details", "customer_name='$names'");
-    //if($count==1)
-    // {
-    //echo "<font color=red> Dublicat Entry. Please Verify</font>";
-    //  }
-    // else
-    // {
-        
-      if($conn->query("insert into customer_details values(NULL,'$plate','$names','$id','$phone','$province','$district','$sector','$vim','$vcategory','$vmodel','$mnumber','$fnumber','$myear','$byear','$rratc','$insc')"))
-      echo "<br><center><font color=green size=+1 > [ $vmodel ] Vehicle Registered Successfully!</font>" ;
+
+$query = "INSERT INTO customer_details VALUES (NULL, :plate, :names, :id, :phone, :province, :district, :sector, :vim, :vcategory, :vmodel, :mnumber, :fnumber, :myear, :byear, :rratc, :insc)";
+$stmt = $conn->prepare($query);
+$params = array(
+    ':plate' => $plate,
+    ':names' => $names,
+    ':id' => $id,
+    ':phone' => $phone,
+    ':province' => $province,
+    ':district' => $district,
+    ':sector' => $sector,
+    ':vim' => $vim,
+    ':vcategory' => $vcategory,
+    ':vmodel' => $vmodel,
+    ':mnumber' => $mnumber,
+    ':fnumber' => $fnumber,
+    ':myear' => $myear,
+    ':byear' => $byear,
+    ':rratc' => $rratc,
+    ':insc' => $insc
+);
+$result = $stmt->execute($params);
 
 
-      else
-      echo "<br><font color=red size=+1 ><center>Problem in Adding Vehicle!</font>" ;
-      
-      //}
-      
+if ($result) {
+    echo "<br><center><font color=green size=+1 > [ $vmodel ] Vehicle Registered Successfully!</font>";
+} else {
+    $errorInfo = $stmt->errorInfo();
+    echo "<br><font color=red size=+1 ><center>Problem in Adding Vehicle: " . $errorInfo[2] . "</font>";
+}
+
+
       
       }
         
